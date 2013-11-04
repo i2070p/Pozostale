@@ -113,7 +113,7 @@ void Pajac::rysujPajaca() {
                 glutSolidSphere(0.3f, 24, 24);
 				glPopMatrix();
 
-		if (ruch<4*_pi) *action=-45*(sin(ruch+=krok))-30; else ruch=0; 
+		if (ruch<2*_pi) *action=-45*(sin(ruch+=krok))-30; else ruch=0; 
 }
 
 Pajac **pajace;
