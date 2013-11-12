@@ -1,0 +1,43 @@
+//*.h
+#pragma once
+#include <string>
+
+class GameObiect {
+	public:
+		GameObiect();
+		~GameObiect();
+		bool isDead();
+		std::string getInfo();
+		void subHP(float);
+		void setInfo(std::string);
+	private:
+		float hp;
+		std::string info;
+};
+
+//*.cpp
+#include "GameObiect.h"
+
+
+GameObiect::GameObiect() {
+	hp=100;
+}
+
+GameObiect::~GameObiect(){}
+
+void GameObiect::subHP(float m_hp) {
+	if (hp-m_hp<=0) hp=0; else hp=hp-m_hp;
+}
+
+bool GameObiect::isDead() {
+	if (hp<=0) return(true); 
+	return(false);
+}
+
+std::string GameObiect::getInfo() {
+	return(info);
+}
+
+void GameObiect::setInfo(std::string _info) {
+	info=_info;
+}
