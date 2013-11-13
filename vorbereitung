@@ -1,43 +1,140 @@
-//*.h
 #pragma once
-#include <string>
+#include "gameobiect.h"
 
-class GameObiect {
+class OffensiveObiect: public GameObiect {
 	public:
-		GameObiect();
-		~GameObiect();
-		bool isDead();
-		std::string getInfo();
-		void subHP(float);
-		void setInfo(std::string);
-	private:
-		float hp;
-		std::string info;
+		OffensiveObiect(std::string, int, std::string);
+		~OffensiveObiect();
+		int attack();
+		void shout();
+	protected:
+		int damage;
+		std::string txt_shout;
 };
 
-//*.cpp
-#include "GameObiect.h"
+#pragma once
+#include <string>
+#include <iostream>
+#include <time.h>
+
+class GameObiect {
+        public:
+			GameObiect(){};
+            GameObiect(std::string);
+            ~GameObiect();
+            bool isDead();
+            std::string getInfo();
+            void subHP(int);
+            void setInfo(std::string);
+			void setNext(GameObiect*);
+			GameObiect* getNext();
+        protected:
+            float hp;
+            std::string info;
+			GameObiect* next;
+};
+
+#pragma once
+#include "gameobiect.h"
+
+class PassiveObiect: public GameObiect {
+	public:
+		PassiveObiect(std::string, int, int);
+		~PassiveObiect(void);
+		void defend(int);
+	protected:
+		int defense, size;	
+		
+};
+
+#include "stdafx.h"
+#include "PassiveObiect.h"
 
 
-GameObiect::GameObiect() {
-	hp=100;
+PassiveObiect::PassiveObiect(std::string _info, int _defense, int _size):
+GameObiect(_info), defense(_defense), size(_size){
+		srand(time(0));
 }
 
-GameObiect::~GameObiect(){}
+void PassiveObiect::defend(int attack) {
 
-void GameObiect::subHP(float m_hp) {
-	if (hp-m_hp<=0) hp=0; else hp=hp-m_hp;
+	subHP(rand() % defense - attack);
 }
 
-bool GameObiect::isDead() {
-	if (hp<=0) return(true); 
-	return(false);
+PassiveObiect::~PassiveObiect(void){}
+#include "stdafx.h"
+#include "OffensiveObiect.h"
+
+OffensiveObiect::OffensiveObiect(std::string _info, int _damage, std::string _txt_shout):
+GameObiect(_info), damage(_damage), txt_shout(_txt_shout) {
 }
 
-std::string GameObiect::getInfo() {
-	return(info);
+OffensiveObiect::~OffensiveObiect(void) {}
+
+int OffensiveObiect::attack() {
+	srand(time(0));
+	return(rand() % damage);
+}
+void OffensiveObiect::shout() {
+	std::cout << txt_shout << std::endl;
 }
 
-void GameObiect::setInfo(std::string _info) {
-	info=_info;
+#include "stdafx.h"
+#include "PassiveObiect.h"
+
+
+PassiveObiect::PassiveObiect(std::string _info, int _defense, int _size):
+GameObiect(_info), defense(_defense), size(_size){
+		srand(time(0));
 }
+
+void PassiveObiect::defend(int attack) {
+
+	subHP(rand() % defense - attack);
+}
+
+PassiveObiect::~PassiveObiect(void){}
+// ConsoleApplication4.cpp : Defines the entry point for the console application.
+//
+
+#include "stdafx.h"
+#include "OffensiveObiect.h"
+#include "PassiveObiect.h"
+#include <vector>
+#include <sstream>
+
+using namespace std;
+int _tmain(int argc, _TCHAR* argv[])
+{
+	srand(time(0));
+	OffensiveObiect* player = new OffensiveObiect("gracz", 10, "H!");
+	
+	GameObiect* tail=NULL, *head=NULL;
+
+	for (int i=0; i<5; i++) { 
+		stringstream info,shout;
+		info<<"OffOb"<<i;
+		shout << "Shout! # " << i;
+		GameObiect* tmp = new OffensiveObiect(info.str(),rand()%20,shout.str());
+		if (!tail) {
+			tail=tmp; 
+			head=tmp; 
+		} else { 
+			tail->setNext(tmp);
+			tail=tmp;
+		}
+	}
+
+	GameObiect* tmps=head;
+		
+	while(tmps) {
+
+		cout << tmps->getInfo() << endl;
+		tmps=tmps->getNext();
+	}
+
+		getchar();
+
+	return 0;
+}
+
