@@ -1,1 +1,6 @@
-ggg
+0.skrypt ma 2 parametry
+1.Sprawdzic czy katalog podany jako $2 istnieje
+2.sprawdzic jakie zbiory leza w tym katalogu (ls)
+3.dla kazdego zbioru sprawdzic czy mamy do czynienia z plikiem zwyklym
+4.jezeli zwykly do katalogu docelowego ($1)
+5.przeszukiwanie rekurencyjne
