@@ -30,3 +30,6 @@ static void drawTextOnScreen(int x, int y, const char* string, float* color, voi
 }
 //example
 		tools::drawTextOnScreen(20*correctScaleX, 124*correctScaleY, message.c_str(), white, GLUT_STROKE_MONO_ROMAN, 0.09*correctScaleX, 0.09*correctScaleY);
+#include "GL\freeglut.h"
+#include "GL\freeglut_ext.h"
+#include "GL\glut.h"
